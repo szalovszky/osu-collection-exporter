@@ -52,35 +52,99 @@
           collections = collectionData.readCollections();
           collectionString = "";
           for (var i = 0; i < collections.collections.length; i++) {
-            // console.log(collections.collections[i].name);
             collectionString += collections.collections[i].name + "\n";
             for (var j = 0; j < collections.collections[i].hashes.length; j++) {
               if (collections.collections[i].hashes[j] in maps) {
                 var map = maps[collections.collections[i].hashes[j]];
-                // console.log(map.song_title + ": " + map.difficulty);
-                // console.log(collections.collections[i].hashes[j])
-                var url = `https://osu.ppy.sh/beatmaps/${map.beatmap_id}`
+                var url = "Beatmap Url Unavailable";
+                if (map.beatmap_id != 0)
+                  url = `https://osu.ppy.sh/beatmaps/${map.beatmap_id}`;
                 collectionString += `${map.song_title}: ${map.difficulty}: ${url}\n`;
               }
             }
-            // console.log("\n");
             collectionString += "\n";
           }
           document.querySelector("#paragraph").value = collectionString;
         }
       });
     </script>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Lato&display=swap");
+      body {
+        margin: 0;
+        font-family: Lato;
+        background-color: #decfe0;
+      }
+      #heading {
+        background-color: #e660ab;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        color: white;
+        line-height: 13px;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+          0 6px 20px 0 rgba(0, 0, 0, 0.19);
+      }
+      #container {
+        display: flex;
+        justify-content: center;
+      }
+      #content {
+        background-color: white;
+        padding: 20px;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+          0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        width: 750px;
+      }
+      .upload {
+        border: gray;
+      }
+      #fork {
+        position: absolute;
+      }
+    </style>
   </head>
   <body>
-    <h1>osu! Collection Exporter</h1>
-    <h2>Step 1: Upload your osu!.db file</h2>
-    <input id="osudb" type="file" />
-    <h2>Step 2: Upload your collection.db file</h2>
-    <input id="collectiondb" type="file" />
-    <br>
-    <br>
-    NOTE: This entire process is performed locally on your browser and nothing is ever uploaded to our servers
-    <br>
-    <textarea id="paragraph" rows="60" cols="100"></textarea>
+    <a href="https://github.com/jaasonw/osu-collection-exporter" id="fork"
+      ><img
+        loading="lazy"
+        width="149"
+        height="149"
+        src="https://github.blog/wp-content/uploads/2008/12/forkme_left_darkblue_121621.png?resize=149%2C149"
+        class="attachment-full size-full"
+        alt="Fork me on GitHub"
+        data-recalc-dims="1"
+    /></a>
+    <div id="heading">
+      <h1>osu! Collection Exporter</h1>
+      <h3>Created by jasonw</h3>
+    </div>
+    <div id="container">
+      <div id="content">
+        <h2>Step 1: Upload your osu!.db file</h2>
+        <div class="upload">
+          <input id="osudb" type="file" />
+        </div>
+        <div class="upload">
+          <h2>Step 2: Upload your collection.db file</h2>
+        </div>
+        <input id="collectiondb" type="file" />
+        <br />
+        <br />
+        NOTE: This entire process is performed locally on your browser and
+        nothing is ever uploaded to our servers
+        <br />
+        <textarea id="paragraph" rows="30" cols="100"></textarea>
+        <br />
+        <br />
+        If you enjoy this project and would like to support me, you can do so
+        <a href="https://ko-fi.com/wayson">here</a>
+        <br />
+        If did not enjoy this project and/or would like to help make it better then
+        shoot me a bug report or a pull request
+        <a href="https://github.com/jaasonw/osu-collection-exporter">here</a>
+      </div>
+    </div>
   </body>
 </html>
