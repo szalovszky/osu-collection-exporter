@@ -2,6 +2,21 @@
 <html>
   <head>
     <script src="src/index.js"></script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=UA-155121908-1"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "UA-155121908-1");
+    </script>
+
     <script>
       window.addEventListener("load", function () {
         var mapData;
@@ -141,8 +156,8 @@
         If you enjoy this project and would like to support me, you can do so
         <a href="https://ko-fi.com/wayson">here</a>
         <br />
-        If did not enjoy this project and/or would like to help make it better then
-        shoot me a bug report or a pull request
+        If did not enjoy this project and/or would like to help make it better
+        then shoot me a bug report or a pull request
         <a href="https://github.com/jaasonw/osu-collection-exporter">here</a>
       </div>
     </div>
