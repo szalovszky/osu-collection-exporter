@@ -5,6 +5,22 @@
     <script src="script.js"></script>
 
     <script>
+      function download(filename, text) {
+        var element = document.createElement("a");
+        element.setAttribute(
+          "href",
+          "data:text/plain;charset=utf-8," + encodeURIComponent(text)
+        );
+        element.setAttribute("download", filename);
+
+        element.style.display = "none";
+        document.body.appendChild(element);
+
+        element.click();
+
+        document.body.removeChild(element);
+      }
+
       window.addEventListener("load", function () {
         let mapData;
         let collectionData;
@@ -66,7 +82,11 @@
             }
             delete collections.collections[i].hashes;
           }
-          document.querySelector("#paragraph").value = JSON.stringify(collections, null, 2);
+          document.querySelector("#paragraph").value = JSON.stringify(
+            collections,
+            null,
+            2
+          );
         }
       });
     </script>
@@ -135,17 +155,22 @@
       <div id="content">
         <h2>Step 1: Upload your osu!.db file</h2>
         <div class="upload">
-          <input id="osudb" type="file" autocomplete=off />
+          <input id="osudb" type="file" autocomplete="off" />
         </div>
         <div class="upload">
           <h2>Step 2: Upload your collection.db file</h2>
         </div>
-        <input id="collectiondb" type="file" autocomplete=off />
+        <input id="collectiondb" type="file" autocomplete="off" />
         <p>
           NOTE: This entire process is performed locally on your browser and
           nothing is ever uploaded to the servers.
         </p>
-        <textarea id="paragraph" readonly autocomplete=off></textarea>
+        <button
+          onclick="download('collection.json', document.querySelector('textarea').value)"
+        >
+          Download as JSON
+        </button>
+        <textarea id="paragraph" readonly autocomplete="off"></textarea>
       </div>
     </div>
   </body>
