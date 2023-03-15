@@ -4,7 +4,7 @@ Exports osu! collections into a list of maps and links to beatmaps. All operatio
 
 NOTE: The FileReader API has a file size limit that varies between browsers (For instance: 231 MB on Chrome) so be wary of large osu!.db files
 
-[Try it here!](https://jaasonw.github.io/osu-collection-exporter/)
+[Try it here!](https://osu-collection-exporter.vercel.app)
 
 # Dependencies
 
