@@ -12,4 +12,4 @@ None! This uses vanilla javascript with the FileReader API and Dataview. However
 
 # Issues/Contributing
 
-This project is a heavilly work in progress but if you ever find any issues, feel free to shoot me an issue, pull request, or a message on Discord: jasonw#2463 or on osu: jasonw
+This project is a heavilly work in progress but if you ever find any issues, feel free to shoot me an issue or create a pull request

@@ -3,29 +3,14 @@
   <head>
     <title>osu! Collection Exporter</title>
     <script src="src/index.js"></script>
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script
-      async
-      src="https://www.googletagmanager.com/gtag/js?id=UA-155121908-1"
-    ></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        dataLayer.push(arguments);
-      }
-      gtag("js", new Date());
-
-      gtag("config", "UA-155121908-1");
-    </script>
 
     <script>
       window.addEventListener("load", function () {
-        var mapData;
-        var collectionData;
-        document.querySelector("#osudb").addEventListener("change", (input) => {
-          console.log(input);
-          let file = document.querySelector("#osudb").files[0];
+        let mapData;
+        let collectionData;
 
+        document.querySelector("#osudb").addEventListener("change", (input) => {
+          let file = document.querySelector("#osudb").files[0];
           let reader = new FileReader();
 
           reader.readAsArrayBuffer(file);
@@ -42,6 +27,7 @@
             console.log(reader.error);
           };
         });
+
         document
           .querySelector("#collectiondb")
           .addEventListener("change", (input) => {
@@ -60,37 +46,37 @@
             };
 
             reader.onerror = function () {
-              console.log(reader.error);
+              console.error(reader.error);
             };
           });
+
         function parseCollections() {
           maps = mapData.readBeatmaps();
           collections = collectionData.readCollections();
-          collectionString = "";
-          for (var i = 0; i < collections.collections.length; i++) {
-            collectionString += collections.collections[i].name + "\n";
-            for (var j = 0; j < collections.collections[i].hashes.length; j++) {
+
+          for (let i = 0; i < collections.collections.length; i++) {
+            collections.collections[i].maps = [];
+            for (let j = 0; j < collections.collections[i].hashes.length; j++) {
               if (collections.collections[i].hashes[j] in maps) {
-                var map = maps[collections.collections[i].hashes[j]];
-                var url = "Beatmap Url Unavailable";
+                let map = maps[collections.collections[i].hashes[j]];
                 if (map.beatmap_id != 0)
-                  url = `https://osu.ppy.sh/beatmaps/${map.beatmap_id}`;
-                collectionString += `${map.song_title}: ${map.difficulty}: ${url}\n`;
+                  map.url = `https://osu.ppy.sh/beatmaps/${map.beatmap_id}`;
+                collections.collections[i].maps.push(map);
               }
             }
-            collectionString += "\n";
+            delete collections.collections[i].hashes;
           }
-          document.querySelector("#paragraph").value = collectionString;
+          document.querySelector("#paragraph").value = JSON.stringify(collections, null, 2);
         }
       });
     </script>
     <style>
-      @import url("https://fonts.googleapis.com/css2?family=Lato&display=swap");
       body {
         margin: 0;
-        font-family: Lato;
         background-color: #decfe0;
+        font-family: sans-serif;
       }
+
       #heading {
         background-color: #e660ab;
         display: flex;
@@ -102,10 +88,12 @@
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
           0 6px 20px 0 rgba(0, 0, 0, 0.19);
       }
+
       #container {
         display: flex;
         justify-content: center;
       }
+
       #content {
         background-color: white;
         padding: 20px;
@@ -114,12 +102,15 @@
         width: 750px;
         height: 100%;
       }
+
       .upload {
         border: gray;
       }
+
       #fork {
         position: absolute;
       }
+
       #paragraph {
         width: 100%;
         height: 500px;
@@ -127,7 +118,7 @@
     </style>
   </head>
   <body>
-    <a href="https://github.com/jaasonw/osu-collection-exporter" id="fork"
+    <a href="https://github.com/szalovszky/osu-collection-exporter" id="fork"
       ><img
         loading="lazy"
         width="149"
@@ -139,32 +130,22 @@
     /></a>
     <div id="heading">
       <h1>osu! Collection Exporter</h1>
-      <h3>Created by jasonw</h3>
     </div>
     <div id="container">
       <div id="content">
         <h2>Step 1: Upload your osu!.db file</h2>
         <div class="upload">
-          <input id="osudb" type="file" />
+          <input id="osudb" type="file" autocomplete=off />
         </div>
         <div class="upload">
           <h2>Step 2: Upload your collection.db file</h2>
         </div>
-        <input id="collectiondb" type="file" />
-        <br />
-        <br />
-        NOTE: This entire process is performed locally on your browser and
-        nothing is ever uploaded to our servers
-        <br />
-        <textarea id="paragraph"></textarea>
-        <br />
-        <br />
-        If you enjoy this project and would like to support me, you can do so
-        <a href="https://ko-fi.com/wayson">here</a>
-        <br />
-        If did not enjoy this project and/or would like to help make it better
-        then shoot me a bug report or a pull request
-        <a href="https://github.com/jaasonw/osu-collection-exporter">here</a>
+        <input id="collectiondb" type="file" autocomplete=off />
+        <p>
+          NOTE: This entire process is performed locally on your browser and
+          nothing is ever uploaded to the servers.
+        </p>
+        <textarea id="paragraph" readonly autocomplete=off></textarea>
       </div>
     </div>
   </body>
